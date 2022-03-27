@@ -1,11 +1,20 @@
-from contextlib import redirect_stderr
-from django.http import HttpResponse
 import markdown2
 from django.shortcuts import redirect, render
 from . import util
 
 
 def index(request):
+    if request.method == 'POST':
+        search_query = request.POST.get("q")
+        for page in util.list_entries():
+            if search_query.lower() == page.lower():
+                return redirect("specific entry", entry=page)
+        # implement proper search mentioned on cs50 website.
+        return render(request, "encyclopedia/error.html", {
+            "content": "No search result found",
+            "title": "No search result found"
+        })
+
     return render(request, "encyclopedia/index.html", {
         "entries": util.list_entries()
     })
@@ -16,10 +25,12 @@ def load_page(request, entry):
     if page is not None:
         content = markdown2.markdown(page)
         return render(request, "encyclopedia/specificpage.html", {
-            "content": content
+            "content": content,
+            "title": entry
         })
-    return render(request, "encyclopedia/specificpage.html", {
-        "content": "404: Page not found"
+    return render(request, "encyclopedia/error.html", {
+        "content": "404: Page not found",
+        "title": "404 error"
     })
 
 

@@ -1,14 +1,10 @@
 {% extends "encyclopedia/layout.html" %} 
 {% block title %} 
-    {{title}} 
+    {{title}}
 {% endblock %} 
 {% block body %}
-<div >
-    <button class="btn btn-success" style="float:right">Edit</button>
-</div>
-<div>
-    {{content|safe}}
-</div>
-
+    <div class="alert alert-danger" role="alert">
+        {{content}} 
+    </div>
     <!-- safe makes it output HTML, which is avoided by default -->
 {% endblock %}
