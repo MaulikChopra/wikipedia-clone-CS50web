@@ -1,0 +1,8 @@
+{% extends "encyclopedia/layout.html" %} 
+{% block title %} 
+    New Page 
+{% endblock %} 
+{% block body %}
+    {{content|safe}} 
+    <!-- safe makes it output HTML, which is avoided by default -->
+{% endblock %}
