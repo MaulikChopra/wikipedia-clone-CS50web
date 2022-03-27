@@ -1,7 +1,7 @@
+from contextlib import redirect_stderr
 from django.http import HttpResponse
-from httplib2 import Http
 import markdown2
-from django.shortcuts import render
+from django.shortcuts import redirect, render
 from . import util
 
 
@@ -24,6 +24,22 @@ def load_page(request, entry):
 
 
 def create_new_page(request):
+    if request.method == "POST":
+        title = request.POST.get("fname")
+        content = request.POST.get("fcontent")
+        if title not in util.list_entries():
+            util.save_entry(title, content)
+            return redirect("specific entry", entry=title)
+        else:
+            content = f"""
+            <div class="alert alert-danger" role="alert">
+                Same page already exists, 
+                <a href="/wiki/{title}/">{title}</a> 
+            </div>
+            """
+            return render(request, "encyclopedia/newpage.html", {
+                "content": content
+            })
     return render(request, "encyclopedia/newpage.html")
 
 

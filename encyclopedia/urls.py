@@ -7,5 +7,4 @@ urlpatterns = [
     path("createpage/", views.create_new_page, name="create new page"),
     path("randompage/", views.random_page, name="random page"),
     path("<str:entry>/", views.load_page, name="specific entry"),
-
 ]
