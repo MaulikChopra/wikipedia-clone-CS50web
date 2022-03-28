@@ -23,7 +23,7 @@ def index(request):
 
 
 def load_page(request, entry):
-    entry = entry.strip().lower()
+    entry = entry.strip()
     page = util.get_entry(entry)
     if request.method == "POST":
         if request.POST.get("Edit") == "":
