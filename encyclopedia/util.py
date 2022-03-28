@@ -35,3 +35,26 @@ def get_entry(title):
         return f.read().decode("utf-8")
     except FileNotFoundError:
         return None
+
+
+def search_wiki(request):
+    search_query = request.POST.get("q")
+    list_of_matches = []
+    flag = False
+    for page in list_entries():
+        if search_query.lower() == page.lower():
+            flag = True
+            break
+        if search_query.lower() in page.lower():
+            list_of_matches.append(page)
+
+    return flag, page, list_of_matches
+
+
+def check_duplicate_entry(title):
+    """True if duplicate entry found, else False"""
+    flag = False
+    for entry in list_entries():
+        if title.strip().lower() == entry.strip().lower():
+            flag = True  # same entry exists
+            return flag

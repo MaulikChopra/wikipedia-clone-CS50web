@@ -5,11 +5,13 @@ from . import util
 
 def index(request):
     if request.method == 'POST':
-        search_query = request.POST.get("q")
-        for page in util.list_entries():
-            if search_query.lower() == page.lower():
-                return redirect("specific entry", entry=page)
-        # implement proper search mentioned on cs50 website.
+        flag, exact_match, list_of_matches = util.search_wiki(request)
+        if flag == True:
+            return redirect("specific entry", entry=exact_match)
+        if flag == False and len(list_of_matches) != 0:
+            return render(request, "encyclopedia/searchresult.html", {
+                "matches": list_of_matches
+            })
         return render(request, "encyclopedia/error.html", {
             "content": "No search result found",
             "title": "No search result found"
@@ -21,6 +23,7 @@ def index(request):
 
 
 def load_page(request, entry):
+    entry = entry.strip().lower()
     page = util.get_entry(entry)
     if request.method == "POST":
         if request.POST.get("Edit") == "":
@@ -49,11 +52,7 @@ def load_page(request, entry):
 def create_new_page(request):
     if request.method == "POST":
         title = request.POST.get("fname")
-        content = request.POST.get("fcontent")
-        if title not in util.list_entries():
-            util.save_entry(title, content)
-            return redirect("specific entry", entry=title)
-        else:
+        if util.check_duplicate_entry(title):
             content = f"""
             <div class="alert alert-danger" role="alert">
                 Same page already exists, 
@@ -63,6 +62,11 @@ def create_new_page(request):
             return render(request, "encyclopedia/newpage.html", {
                 "content": content
             })
+        else:
+            content = request.POST.get("fcontent")
+            util.save_entry(title, content)
+            return redirect("specific entry", entry=title)
+
     return render(request, "encyclopedia/newpage.html")
 
 

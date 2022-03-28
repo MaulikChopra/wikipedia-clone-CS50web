@@ -7,12 +7,18 @@
 <div>
     <form method="post">
     {% csrf_token %}
+        <div>
+            <h4>{{title}}</h4>
+        </div>
+        <div>
         <textarea
             class="page-content-field"
             name="Ncontent"
         >{{oldcontent}}</textarea>
-        <br><br>
+        </div>
+        <div>
         <button type="submit" class="btn btn-success">Save</button>
+        </div>
     </form>
     
 </div>

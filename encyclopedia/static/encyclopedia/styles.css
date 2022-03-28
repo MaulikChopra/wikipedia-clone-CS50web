@@ -1,6 +1,7 @@
 body {
   margin: 0;
   background-color: white;
+  font-family: hoefler;
 }
 
 code {
@@ -57,4 +58,8 @@ textarea {
   font-size: 18px;
   font-family: hack;
   margin-bottom: 1%;
+}
+
+.alert {
+  width: fit-content !important;
 }

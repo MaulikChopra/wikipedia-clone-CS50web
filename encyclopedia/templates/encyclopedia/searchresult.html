@@ -1,0 +1,15 @@
+{% extends "encyclopedia/layout.html" %} 
+{% load static %}
+{% block title %} 
+    Search Result
+{% endblock %} 
+{% block body %}
+<div class="alert alert-success" role="alert">
+    Search result:
+</div>
+    {% for match in matches %}
+        <a href="{{match}}">{{match}}</a>
+        <br>
+    {% endfor %}
+    <!-- safe makes it output HTML, which is avoided by default -->
+{% endblock %}
