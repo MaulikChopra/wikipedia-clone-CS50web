@@ -2,7 +2,7 @@
 
 ## CS50web Project
 
-## <a href="www.youtube.com/completelink">Submission video</a>
+## <a href="https://youtu.be/aeDyc_8OrPo">Submission video</a>
 
 ### <b>Features:</b>
 
