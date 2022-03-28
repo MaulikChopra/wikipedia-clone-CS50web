@@ -4,15 +4,17 @@
     {{title}} 
 {% endblock %} 
 {% block body %}
-<div >
+<div>
     <form method="post">
     {% csrf_token %}
-        <input type="hidden" name="Edit"/>
-        <button type="submit" class="btn btn-success" style="float:right">Edit</button>
+        <textarea
+            class="page-content-field"
+            name="Ncontent"
+        >{{oldcontent}}</textarea>
+        <br><br>
+        <button type="submit" class="btn btn-success">Save</button>
     </form>
-</div>
-<div>
-    {{content|safe}}
+    
 </div>
     <!-- safe makes it output HTML, which is avoided by default -->
 {% endblock %}

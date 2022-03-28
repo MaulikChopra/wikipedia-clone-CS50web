@@ -22,12 +22,24 @@ def index(request):
 
 def load_page(request, entry):
     page = util.get_entry(entry)
+    if request.method == "POST":
+        if request.POST.get("Edit") == "":
+            return render(request, "encyclopedia/editpage.html", {
+                "oldcontent": page,
+                "title": "Edit page: " + entry
+            })
+
+        elif request.POST.get("Ncontent") != "":
+            newcontent = request.POST.get("Ncontent")
+            util.save_entry(entry, newcontent)
+            return redirect("specific entry", entry=entry)
     if page is not None:
         content = markdown2.markdown(page)
         return render(request, "encyclopedia/specificpage.html", {
             "content": content,
             "title": entry
         })
+
     return render(request, "encyclopedia/error.html", {
         "content": "404: Page not found",
         "title": "404 error"
